@@ -1,35 +1,120 @@
-function getToken() { return localStorage.getItem('token'); } async function getUserByToken(token) { try { const res = await
-axios.get('https://api.marktube.tv/v1/me', { headers: { Authorization: `Bearer ${token}`, }, }); return res.data; } catch (error) { console.log('getUserByToken
-error', error); return null; } } async function logout() { const token = getToken(); if (token === null) { location.assign('/login'); return; } try { await
-axios.delete('https://api.marktube.tv/v1/me', { headers: { Authorization: `Bearer ${token}`, }, }); } catch (error) { console.log('logout error', error); }
-finally { localStorage.clear(); location.assign('/login'); } } async function getBooks(token) { try { const res = await
-axios.get('https://api.marktube.tv/v1/book', { headers: { Authorization: `Bearer ${token}`, }, }); return res.data; } catch (error) { console.log('getBooks
-error', error); return null; } } async function deleteBook(bookId) { const token = getToken(); if (token === null) { location.assign('/login'); return; } await
-axios.delete(`https://api.marktube.tv/v1/book/${bookId}`, { headers: { Authorization: `Bearer ${token}`, }, }); return; } function bindLogoutButton() { const
-btnLogout = document.querySelector('#btn_logout'); btnLogout.addEventListener('click', logout); } function render(books) { const listElement =
-document.querySelector('#list'); for (let i = 0; i < books.length; i++) { const book = books[i]; const bookElement = document.createElement('div');
-bookElement.classList.value = 'col-md-4'; bookElement.innerHTML = `
-<div class="card mb-4 shadow-sm">
-    <div class="card-body">
-        <p class="card-text">${book.title === '' ? '제목 없음' : book.title}</p>
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-                <a href="/book?id=${book.bookId}">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">
-                        View
-                    </button>
-                </a>
-                <button type="button" class="btn btn-sm btn-outline-secondary btn-delete" data-book-id="${book.bookId}">
-                    Delete
-                </button>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <!-- shirink-to-fit은 사파리의 경우 자동으로 컨텐츠에 따라 zoom/shirink를 하기 때문에 no로 설정하지 않으면
+            100vw 이상의 밖에 있는 컨텐츠까지 친절하게 보여주려고 한다. (개발자가 설정하지 않은 말도 안되는 화면 밖의 공간) -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="./css/style.css" />
+
+        <title>My Favorite Books</title>
+    </head>
+    <body>
+        <header>
+            <div class="collapse bg-dark" id="navbarHeader">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-md-7 py-4">
+                            <h4 class="text-white">About</h4>
+                            <p class="text-muted">
+                                Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks
+                                can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.
+                            </p>
+                        </div>
+                        <div class="col-sm-4 offset-md-1 py-4">
+                            <h4 class="text-white">Contact</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="text-white">Follow on Twitter</a></li>
+                                <li><a href="#" class="text-white">Like on Facebook</a></li>
+                                <li><a href="#" class="text-white">Email me</a></li>
+                                <li><button id="btn_logout">ë¡œê·¸ì•„ì›ƒ</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <small class="text-muted">${new Date( book.createdAt, ).toLocaleString()}</small>
-        </div>
-    </div>
-</div>
-`; listElement.append(bookElement); } document.querySelectorAll('.btn-delete').forEach(element => { element.addEventListener('click', async event => { const
-bookId = event.target.dataset.bookId; try { await deleteBook(bookId); location.reload(); } catch (error) { console.log(error); } }); }); } async function main()
-{ // 버튼에 이벤트 연결 bindLogoutButton(); // 토큰 체크 const token = getToken(); if (token === null) { location.assign('/login'); return; } // 토큰으로
-서버에서 나의 정보 받아오기 const user = await getUserByToken(token); if (user === null) { localStorage.clear(); location.assign('/login'); return; } // 나의
-책을 서버에서 받아오기 const books = await getBooks(token); if (books === null) { return; } // 받아온 책을 그리기 render(books); }
-document.addEventListener('DOMContentLoaded', main);
+            <div class="navbar navbar-dark bg-dark shadow-sm">
+                <div class="container d-flex justify-content-between">
+                    <a href="/" class="navbar-brand d-flex align-items-center">
+                        <strong>My Faborite Books</strong>
+                    </a>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#navbarHeader"
+                        aria-controls="navbarHeader"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <main role="main">
+            <section class="jumbotron text-center">
+                <div class="container">
+                    <h1 class="jumbotron-heading">Book example</h1>
+                    <p class="lead text-muted">
+                        This project is an example for beginners studying JavaScript.<br />
+                        You can add your favorite book and check it out of the list.<br />
+                        You can delete or modify the book that you add.
+                    </p>
+                    <p>
+                        <a href="/add" class="btn btn-primary my-2">Add Book</a>
+                    </p>
+                </div>
+            </section>
+            <div class="album py-5 bg-light">
+                <div class="container">
+                    <div class="row" id="list"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-muted">
+            <div class="container">
+                <p class="float-right">
+                    <a href="#">Back to top</a>
+                </p>
+                <p>
+                    Album example is &copy; Bootstrap, but please download and customize it for yourself!
+                </p>
+                <p>
+                    New to Bootstrap?
+                    <a href="https://getbootstrap.com/">Visit the homepage</a> or read our
+                    <a href="/docs/4.3/getting-started/introduction/">getting started guide</a>.
+                </p>
+            </div>
+        </footer>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"
+        ></script>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="js/index.js"></script>
+    </body>
+</html>
