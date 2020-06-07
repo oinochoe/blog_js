@@ -1,0 +1,22 @@
+{
+    "name": "blog_js",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "serve"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/oinochoe/blog_js.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/oinochoe/blog_js/issues"
+    },
+    "homepage": "https://github.com/oinochoe/blog_js#readme",
+    "dependencies": {
+        "serve": "^11.2.0"
+    }
+}
