@@ -1,39 +1,3 @@
-function getToken() {
-    return localStorage.getItem('token');
-}
-
-async function getUserByToken(token) {
-    try {
-        const res = await axios.get(`https://api.marktube.tv/v1/me`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return res.data;
-    } catch (error) {
-        console.log('GetUserByToekn function error', error);
-    }
-}
-
-async function getBook(bookId) {
-    const token = getToken();
-    if (token === null) {
-        location.href = './login';
-        return null;
-    }
-    try {
-        const res = await axios.get(`https://api.marktube.tv/v1/book/${bookId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return res.data;
-    } catch (error) {
-        console.log('getbook error', erorr);
-        return null;
-    }
-}
-
 async function updateBook(bookId) {
     const titleElement = document.querySelector('#title');
     const messageElement = document.querySelector('#message');
@@ -49,11 +13,7 @@ async function updateBook(bookId) {
         return;
     }
 
-    const token = getToken();
-    if (token === null) {
-        location = '/login';
-        return;
-    }
+    checkToken(token);
 
     await axios.patch(
         `https://api.marktube.tv/v1/book/${bookId}`,
@@ -71,7 +31,7 @@ async function updateBook(bookId) {
     );
 }
 
-function render(book) {
+function renderEdit(book) {
     const titleElement = document.querySelector('#title');
     titleElement.value = book.title;
 
@@ -109,28 +69,20 @@ function render(book) {
 
 async function main() {
     // 브라우저에서 id 가져오기
-    const bookId = new URL(location.href).searchParams.get('id');
-    // 토큰 체크
-    const token = getToken();
-    if (token === null) {
-        location.href = './login';
-        return;
-    }
-    // 토큰으로 서버에서 나의 정보 받아오기
-    const user = await getUserByToken(token);
-    if (user === null) {
-        localStorage.clear();
-        location.href = './login';
-        return;
-    }
     // 책을 서버에서 받아오기
+    const bookId = new URL(location.href).searchParams.get('id');
     const book = await getBook(bookId);
+    // 토큰 체크
+    checkToken(token);
+    // 토큰으로 서버에서 나의 정보 받아오기
+    checkUser(user);
+    // 책을 서버에서 받아온 게 있는지 체크
     if (book === null) {
         alert('서버에서 책 가져오기 실패');
         return;
     }
     // 받아온 책을 그리기
-    render(book);
+    renderEdit(book);
 }
 
 document.addEventListener('DOMContentLoaded', main);

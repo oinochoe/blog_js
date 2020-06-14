@@ -1,7 +1,3 @@
-function getToken() {
-    return localStorage.getItem('token');
-}
-
 async function login(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -36,14 +32,9 @@ async function login(e) {
     }
 }
 
-function bindLoginButton() {
-    const form = document.querySelector('#form-login');
-    form.addEventListener('submit', login);
-}
-
 function main() {
     // 버튼에 이벤트 연결
-    bindLoginButton();
+    bindButton('#form-login', 'submit', login);
 
     // 토큰 체크
     const token = getToken();
