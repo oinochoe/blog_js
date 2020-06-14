@@ -19,7 +19,7 @@ async function getUserByToken(token) {
 async function logout() {
     const token = getToken();
     if (token === null) {
-        location.assign('/login.html');
+        location.assign('/login');
         return;
     }
     try {
@@ -32,7 +32,7 @@ async function logout() {
         console.log('logout error', error);
     } finally {
         localStorage.clear();
-        location.assign('/login.html');
+        location.assign('/login');
     }
 }
 
@@ -53,7 +53,7 @@ async function getBooks(token) {
 async function deleteBook(bookId) {
     const token = getToken();
     if (token === null) {
-        location.assign('/login.html');
+        location.assign('/login');
         return;
     }
     await axios.delete(`https://api.marktube.tv/v1/book/${bookId}`, {
@@ -81,7 +81,7 @@ function render(books) {
         <p class="card-text">${book.title === '' ? '제목 없음' : book.title}</p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
-            <a href="/book.html?id=${book.bookId}"
+            <a href="/book?id=${book.bookId}"
                 class="btn btn-sm btn-outline-secondary"
               >
                 View
@@ -122,7 +122,7 @@ async function main() {
     // 토큰 체크
     const token = getToken();
     if (token === null) {
-        location.assign('/login.html');
+        location.assign('/login');
         return;
     }
 
@@ -130,7 +130,7 @@ async function main() {
     const user = await getUserByToken(token);
     if (user === null) {
         localStorage.clear();
-        location.assign('/login.html');
+        location.assign('/login');
         return;
     }
 

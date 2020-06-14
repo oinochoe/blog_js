@@ -18,7 +18,7 @@ async function getUserByToken(token) {
 async function getBook(bookId) {
     const token = getToken();
     if (token === null) {
-        location.href = './login.html';
+        location.href = './login';
         return null;
     }
     try {
@@ -51,7 +51,7 @@ async function updateBook(bookId) {
 
     const token = getToken();
     if (token === null) {
-        location = '/login.html';
+        location = '/login';
         return;
     }
 
@@ -92,7 +92,7 @@ function render(book) {
 
         try {
             await updateBook(book.bookId);
-            location.href = `book.html?id=${book.bookId}`;
+            location.href = `book?id=${book.bookId}`;
         } catch (error) {
             console.log(error);
         }
@@ -103,7 +103,7 @@ function render(book) {
         event.preventDefault();
         event.stopPropagation();
 
-        location.href = `book.html?id=${book.bookId}`;
+        location.href = `book?id=${book.bookId}`;
     });
 }
 
@@ -113,14 +113,14 @@ async function main() {
     // 토큰 체크
     const token = getToken();
     if (token === null) {
-        location.href = './login.html';
+        location.href = './login';
         return;
     }
     // 토큰으로 서버에서 나의 정보 받아오기
     const user = await getUserByToken(token);
     if (user === null) {
         localStorage.clear();
-        location.href = './login.html';
+        location.href = './login';
         return;
     }
     // 책을 서버에서 받아오기

@@ -37,7 +37,7 @@ async function save(event) {
 
     const token = getToken();
     if (token === null) {
-        location.assign('/login.html');
+        location.assign('/login');
         return;
     }
 
@@ -74,14 +74,14 @@ async function main() {
     // 토큰  체크
     const token = getToken();
     if (token === null) {
-        location.assign('/login.html');
+        location.assign('/login');
         return;
     }
     // 토큰으로 서버에서 나의 정보 받아오기
     const user = await getUserByToken(token);
     if (user === null) {
         localStorage.clear();
-        location.assign('/login.html');
+        location.assign('/login');
         return;
     }
 

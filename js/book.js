@@ -18,7 +18,7 @@ async function getUserByToken(token) {
 async function getBook(bookId) {
     const token = getToken();
     if (token === null) {
-        location.assign('/login.html');
+        location.assign('/login');
         return null;
     }
     try {
@@ -37,7 +37,7 @@ async function getBook(bookId) {
 async function logout() {
     const token = getToken();
     if (token === null) {
-        location.assign('/login.html');
+        location.assign('/login');
         return;
     }
     try {
@@ -50,7 +50,7 @@ async function logout() {
         console.log('logout error', error);
     } finally {
         localStorage.clear();
-        location.assign('/login.html');
+        location.assign('/login');
     }
 }
 
@@ -62,7 +62,7 @@ function bindLogoutButton() {
 async function deleteBook(bookId) {
     const token = getToken();
     if (token === null) {
-        location.href = './login.html';
+        location.href = './login';
         return;
     }
     await axios.delete(`https://api.marktube.tv/v1/book/${bookId}`, {
@@ -81,7 +81,7 @@ function render(book) {
         <h5 class="card-title">"${book.message}"</h5>
         <p class="card-text">글쓴이 : ${book.author}</p>
         <p class="card-text">링크 : <a href="${book.url}" target="_BLANK">바로 가기</a></p>
-        <a href="/edit.html?id=${book.bookId}" class="btn btn-primary btn-sm">Edit</a>
+        <a href="/edit?id=${book.bookId}" class="btn btn-primary btn-sm">Edit</a>
         <button type="button" class="btn btn-danger btn-sm" id="btn-delete">Delete</button>
         </div>
         <div class="card-footer">
@@ -107,14 +107,14 @@ async function main() {
     // 토큰 체크
     const token = getToken();
     if (token === null) {
-        location.href = '/login.html';
+        location.href = '/login';
         return;
     }
     // 토큰으로 서버에서 나의 정보 받아오기
     const user = await getUserByToken(token);
     if (user === null) {
         localStorage.clear();
-        location.href = '/login.html';
+        location.href = '/login';
         return;
     }
     // 책을 서버에서 받아오기
