@@ -81,7 +81,7 @@ function render(books) {
         <p class="card-text">${book.title === '' ? '제목 없음' : book.title}</p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
-            <a href="/book?id=${book.bookId}"
+            <a href="/book.html?id=${book.bookId}"
                 class="btn btn-sm btn-outline-secondary"
               >
                 View

@@ -59,6 +59,24 @@ function bindLogoutButton() {
     btnLogout.addEventListener('click', logout);
 }
 
+function render(book) {
+    const detailElement = document.querySelector('#detail');
+
+    detailElement.innerHTML = `<div class="card bg-light w-100">
+        <div class="card-header"><h4>${book.title}</h4></div>
+        <div class="card-body">
+        <h5 class="card-title">"${book.message}"</h5>
+        <p class="card-text">글쓴이 : ${book.author}</p>
+        <p class="card-text">링크 : <a href="${book.url}" target="_BLANK">바로 가기</a></p>
+        <a href="/edit.html?id=${book.bookId}" class="btn btn-primary btn-sm">Edit</a>
+        <button type="button" class="btn btn-danger btn-sm" id="btn-delete">Delete</button>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">작성일 : ${new Date(book.createdAt).toLocaleString()}</small>
+        </div>
+    </div>`;
+}
+
 async function main() {
     // 버튼에 이벤트 연결
     bindLogoutButton();
@@ -84,7 +102,7 @@ async function main() {
         return;
     }
     // 받아온 책 그리기
-    console.log(book);
+    render(book);
 }
 
 document.addEventListener('DOMContentLoaded', main);

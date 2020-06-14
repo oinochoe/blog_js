@@ -22,18 +22,16 @@ async function save(event) {
     event.target.classList.add('was-validated');
 
     const titleElement = document.querySelector('#title');
-    const commentElement = document.querySelector('#comment');
     const messageElement = document.querySelector('#message');
     const authorElement = document.querySelector('#author');
     const urlElement = document.querySelector('#url');
 
     const title = titleElement.value;
-    const comment = commentElement.value;
     const message = messageElement.value;
     const author = authorElement.value;
     const url = urlElement.value;
 
-    if (title === '' || comment === '' || message === '' || author === '' || url === '') {
+    if (title === '' || message === '' || author === '' || url === '') {
         return;
     }
 
@@ -48,7 +46,6 @@ async function save(event) {
             'https://api.marktube.tv/v1/book',
             {
                 title,
-                comment,
                 message,
                 author,
                 url,
