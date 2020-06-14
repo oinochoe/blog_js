@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <!-- shirink-to-fit은 사파리의 경우 자동으로 컨텐츠에 따라 zoom/shirink를 하기 때문에 no로 설정하지 않으면
+            100vw 이상의 밖에 있는 컨텐츠까지 친절하게 보여주려고 한다. (개발자가 설정하지 않은 말도 안되는 화면 밖의 공간) -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="./css/style.css" />
+
+        <title>My Favorite Books</title>
+    </head>
+    <body>
+        <header>
+            <div class="collapse bg-dark" id="navbarHeader">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-md-7 py-4">
+                            <h4 class="text-white">About</h4>
+                            <p class="text-muted">
+                                Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks
+                                can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.
+                            </p>
+                        </div>
+                        <div class="col-sm-4 offset-md-1 py-4">
+                            <h4 class="text-white">Contact</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="text-white">Follow on Twitter</a></li>
+                                <li><a href="#" class="text-white">Like on Facebook</a></li>
+                                <li><a href="#" class="text-white">Email me</a></li>
+                                <li><button id="btn_logout">로그아웃</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar navbar-dark bg-dark shadow-sm">
+                <div class="container d-flex justify-content-between">
+                    <a href="/" class="navbar-brand d-flex align-items-center">
+                        <strong>My Faborite Books</strong>
+                    </a>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#navbarHeader"
+                        aria-controls="navbarHeader"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <main role="main">
+            <section class="jumbotron text-center">
+                <div class="container">
+                    <h1 class="jumbotron-heading">Book example</h1>
+                    <p class="lead text-muted">
+                        This project is an example for beginners studying JavaScript.<br />
+                        You can add your favorite book and check it out of the list.<br />
+                        You can delete or modify the book that you add.
+                    </p>
+                    <p>
+                        <a href="/add.html" class="btn btn-primary my-2">Add Book</a>
+                    </p>
+                </div>
+            </section>
+            <div class="album py-5 bg-light">
+                <div class="container">
+                    <div id="detail"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-muted">
+            <div class="container">
+                <p class="float-right">
+                    <a href="#">Back to top</a>
+                </p>
+                <p>
+                    Album example is &copy; Bootstrap, but please download and customize it for yourself!
+                </p>
+                <p>
+                    New to Bootstrap?
+                    <a href="https://getbootstrap.com/">Visit the homepage</a> or read our
+                    <a href="/docs/4.3/getting-started/introduction/">getting started guide</a>.
+                </p>
+            </div>
+        </footer>
+
+        <script
+            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"
+        ></script>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="./js/book.js"></script>
+    </body>
+</html>
