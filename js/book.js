@@ -59,6 +59,19 @@ function bindLogoutButton() {
     btnLogout.addEventListener('click', logout);
 }
 
+async function deleteBook(bookId) {
+    const token = getToken();
+    if (token === null) {
+        location.href = './login.html';
+        return;
+    }
+    await axios.delete(`https://api.marktube.tv/v1/book/${bookId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
+
 function render(book) {
     const detailElement = document.querySelector('#detail');
 
@@ -75,6 +88,15 @@ function render(book) {
             <small class="text-muted">작성일 : ${new Date(book.createdAt).toLocaleString()}</small>
         </div>
     </div>`;
+
+    document.querySelector('#btn-delete').addEventListener('click', async () => {
+        try {
+            await deleteBook(book.bookId);
+            location.href = '/';
+        } catch (error) {
+            console.log(error);
+        }
+    });
 }
 
 async function main() {
